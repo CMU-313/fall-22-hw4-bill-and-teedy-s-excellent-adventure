@@ -44,7 +44,7 @@ def test_predict_route3():
 
     assert response.status_code == 200
 
-#wrong/out of bound inputs
+# Incorrect Input - School Name
 def test_predict_route4():
     app = Flask(__name__)
     configure_routes(app)
@@ -55,8 +55,19 @@ def test_predict_route4():
 
     assert response.status_code == 404
 
+# Out of Bound Input - Negative Study Time
+def test_predict_route5():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    url = '/predict'
 
-#wrong type inputs
+    response = client.get(url, query_string = {'school':"MS", 'higher':"yes", 'Mjob': "teacher", 'Fjob': "health", 'studytime':-1, 'paid':"yes", 'failures':0})
+
+    assert response.status_code == 404
+
+
+# Wrong Types - School is an Int
 def test_predict_route5():
     app = Flask(__name__)
     configure_routes(app)
@@ -68,7 +79,7 @@ def test_predict_route5():
     assert response.status_code == 404
 
 
-#missing 1 input
+# Missing One Input
 def test_predict_route6():
     app = Flask(__name__)
     configure_routes(app)
@@ -79,7 +90,7 @@ def test_predict_route6():
 
     assert response.status_code == 404
 
-    #missing multiple inputs
+# Missing Multiple Inputs
 def test_predict_route6():
     app = Flask(__name__)
     configure_routes(app)
@@ -90,3 +101,13 @@ def test_predict_route6():
 
     assert response.status_code == 404
 
+# Additional Input - famsize
+def test_predict_route5():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    url = '/predict'
+
+    response = client.get(url, query_string = {'school':"MS", 'higher':"yes", 'Mjob': "teacher", 'Fjob': "health", 'studytime':-1, 'paid':"yes", 'failures':0, 'famsize':3 })
+
+    assert response.status_code == 404
