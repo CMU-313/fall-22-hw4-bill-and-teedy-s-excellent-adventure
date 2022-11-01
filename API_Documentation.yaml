@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is a microservice made to assist the CMU admissions team by predicting whether a given student will succeed at CMU if accepted.
+  version: "1.0.0"
+  title: Student Success Predictor
+tags:
+  - name: Predict
+    description: Obtain success predictions of a student
+paths:
+  /predict:
+    post:
+      tags:
+        - Predict
+      summary: Add a new student info to the model
+      description: Add new student info to the model
+      operationId: addStudent
+      requestBody:
+        description: Create a new student in the model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - Predict
+      summary: Get the prediction result
+      description: Get the prediction result
+      operationId: getPredict
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prediction:
+                    type: integer
+                    format: int32
+                    example: 16
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 5
+        school:
+          type: string
+          example: "MS"
+        higher:
+          type: string
+          example: "yes"
+        Mjob:
+          type: string
+          example: "at_home"
+        Fjob:
+          type: string
+          example: "teacher"
+        studytime:
+          type: integer
+          format: int32
+          example: 2
+        paid:
+          type: string
+          example: "yes"
+        failures:
+          type: integer
+          format: int32
+          example: 2
+      xml:
+        name: Student
