@@ -100,4 +100,4 @@ def configure_routes(app):
         prediction = rfc.predict(query_df)
         return jsonify(np.asscalar(prediction))
 
-# Query String: Fjob=health&Mjob=health&failures=0&higher=yes&paid=yes&school=MD&studytime=20
+# Query String: Fjob=health&Mjob=health&failures=0&higher=yes&paid=yes&school=MD&studytime=2
