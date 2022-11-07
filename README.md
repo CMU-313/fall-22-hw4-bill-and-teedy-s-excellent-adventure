@@ -1,3 +1,8 @@
+# Updates to Model
+We updated the model by converting to a random forest model with maximum depth of 5 and changing the selected features. The features we selected were: mother's occupation (fjob), father's occupation (mjob), the number of classes the applicant has failed (failures), whether the applicant is interested in higher education (higher), whether the applicant has enrolled in paid classes in their field of interest (paid), the amount of time the applicant spends studying (studytime) and the applicant's school.
+
+As a result of these changes, our model's prediction accuracy rose from a baseline of 51% to 78%.
+
 # HW4 Starter Code and Instructions
 
 Please consult the [homework assignment](https://cmu-313.github.io//assignments/hw4) for additional context and instructions for this code.
