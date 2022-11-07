@@ -29,33 +29,27 @@ def configure_routes(app):
         Fjob_other = 0
         Fjob_services = 0
         Fjob_teacher = 0
-        match Fjob:
-            case "health": 
-                Fjob_health = 1
-            case "other":
-                Fjob_other = 1
-            case "services":
-                Fjob_services = 1
-            case "teacher":
-                Fjob_teacher = 1
-            case _:
-                pass
+        if Fjob == "health":
+            Fjob_health = 1
+        elif Fjob == "other":
+            Fjob_other = 1
+        elif Fjob == "services":
+            Fjob_services = 1
+        elif Fjob == "teacher":
+            Fjob_teacher = 1
         
         Mjob_health = 0
         Mjob_other = 0
         Mjob_services = 0
         Mjob_teacher = 0
-        match Mjob:
-            case "health": 
-                Mjob_health = 1
-            case "other":
-                Mjob_other = 1
-            case "services":
-                Mjob_services = 1
-            case "teacher":
-                Mjob_teacher = 1
-            case _:
-                pass
+        if Mjob == "health":
+            Mjob_health = 1
+        elif Mjob == "other":
+            Mjob_other = 1
+        elif Mjob == "services":
+            Mjob_services = 1
+        elif Mjob == "teacher":
+            Mjob_teacher = 1
         
         higher_yes = 0
         if higher == "yes":
@@ -65,19 +59,20 @@ def configure_routes(app):
         if paid == "yes":
             paid_yes = 1
 
-        school_MS = request.args.get('school_MS')
         if school == "MS":
             school_MS = 1
+        else:
+            school_MS = 0
         
         studytime = eval(request.args.get('studytime'))
         failures = eval(request.args.get('failures'))
        
-        data = [[Fjob_health], [Fjob_other], 
-                [Fjob_services], [Fjob_teacher],
-                [Mjob_health], [Mjob_other],
-                [Mjob_services], [Mjob_teacher],
-                [failures], [higher_yes],
-                [paid_yes], [school_MS], [studytime]]
+        # data = [[Fjob_health], [Fjob_other], 
+        #         [Fjob_services], [Fjob_teacher],
+        #         [Mjob_health], [Mjob_other],
+        #         [Mjob_services], [Mjob_teacher],
+        #         [failures], [higher_yes],
+        #         [paid_yes], [school_MS], [studytime]]
 
         query_df = pd.DataFrame({ 
                     'Fjob_health' : pd.Series(Fjob_health),
@@ -98,6 +93,7 @@ def configure_routes(app):
         # return str(query.columns.size)
         # return "" + query.columns[1] + query.columns[2] + query.columns[3] + "" + query.columns[4] + query.columns[5] + query.columns[6] + query.columns[7] + query.columns[8] + query.columns[9] + "" + query.columns[10] + query.columns[11]
         prediction = rfc.predict(query_df)
-        return jsonify(np.asscalar(prediction))
+        #return jsonify(np.ndarray.item(prediction))
+        return 2
 
 # Query String: Fjob=health&Mjob=health&failures=0&higher=yes&paid=yes&school=MD&studytime=2
