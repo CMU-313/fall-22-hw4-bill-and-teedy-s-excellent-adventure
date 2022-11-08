@@ -155,6 +155,10 @@ cython_debug/
 
 # Too large model3.pkl
 app/handlers/model3.pkl
+app/handlers/model5_100.pkl
+app/handlers/model_most_important.pkl
+
+
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
