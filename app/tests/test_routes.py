@@ -2,7 +2,7 @@ from flask import Flask
 
 from app.handlers.routes import configure_routes
 
-#think about how the api should behave when the request body fields are as expected, and when its not
+#Fedu, Medu, Walc, absences, age, failures, freetime, goout, health
 def test_base_route():
     app = Flask(__name__)
     configure_routes(app)
@@ -14,13 +14,13 @@ def test_base_route():
     assert response.status_code == 200
     assert response.get_data() == b'try the predict route it is great!'
 
-def test_predict_route(): #what is being returned?
+def test_predict_route():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"GP", 'higher':"yes", 'Mjob': "teacher", 'Fjob': "health", 'studytime':8, 'paid':"yes", 'failures':0})
+    response = client.get(url, query_string = {'Fedu': 4, 'Medu': 4, 'Walc': 1, 'absences': 0, 'age': 18, 'failures': 0, 'freetime': 1, 'goout': 1, 'health': 5})
 
     assert response.status_code == 200
 
@@ -30,7 +30,7 @@ def test_predict_route2():
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"GP", 'higher':"yes", 'Mjob': "services", 'Fjob': "other", 'studytime':4, 'paid':"yes", 'failures':1})
+    response = client.get(url, query_string = {'Fedu': 4, 'Medu': 3, 'Walc': 2, 'absences': 6, 'age': 19, 'failures': 1, 'freetime': 3, 'goout': 3, 'health': 3})
 
     assert response.status_code == 200
 
@@ -40,41 +40,40 @@ def test_predict_route3():
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"MS", 'higher':"no", 'Mjob': "at_home", 'Fjob': "at_home", 'studytime':0, 'paid':"no", 'failures':3})
+    response = client.get(url, query_string = {'Fedu': 0, 'Medu': 0, 'Walc': 5, 'absences': 93, 'age': 22, 'failures': 4, 'freetime': 5, 'goout': 5, 'health': 1})
 
     assert response.status_code == 200
 
-# Incorrect Input - School Name
+# Out of Bound Input - Fedu is higher than given ranges
 def test_predict_route4():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"hi", 'higher':"yes", 'Mjob': "civil", 'Fjob': "health", 'studytime':8, 'paid':"yes", 'failures':0})
-
+    response = client.get(url, query_string = {'Fedu': 8, 'Medu': 4, 'Walc': 1, 'absences': 0, 'age': 18, 'failures': 0, 'freetime': 1, 'goout': 1, 'health': 5})
     assert response.status_code == 404
 
-# Out of Bound Input - Negative Study Time
+# Out of Bound Input - Negative absences
 def test_predict_route5():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"MS", 'higher':"yes", 'Mjob': "teacher", 'Fjob': "health", 'studytime':-1, 'paid':"yes", 'failures':0})
+    response = client.get(url, query_string = {'Fedu': 4, 'Medu': 4, 'Walc': 1, 'absences': -16, 'age': 18, 'failures': 0, 'freetime': 1, 'goout': 1, 'health': 5})
 
     assert response.status_code == 404
 
 
-# Wrong Types - School is an Int
+# Wrong Types - Fedu is a string
 def test_predict_route5():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':9, 'higher':"yes", 'Mjob': "teacher", 'Fjob': "health", 'studytime':8, 'paid':"yes", 'failures':0})
+    response = client.get(url, query_string = {'Fedu': 'good', 'Medu': 4, 'Walc': 1, 'absences': 0, 'age': 18, 'failures': 0, 'freetime': 1, 'goout': 1, 'health': 5})
 
     assert response.status_code == 404
 
@@ -86,7 +85,7 @@ def test_predict_route6():
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"GP", 'higher':"yes", 'Mjob': 'teacher', 'Fjob': "health", 'studytime':8, 'paid':"yes"})
+    response = client.get(url, query_string = {'Medu': 4, 'Walc': 1, 'absences': 0, 'age': 18, 'failures': 0, 'freetime': 1, 'goout': 1, 'health': 5})
 
     assert response.status_code == 404
 
@@ -97,7 +96,7 @@ def test_predict_route6():
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"GP", 'higher':"yes"})
+    response = client.get(url, query_string = {'Walc': 1, 'absences': 0})
 
     assert response.status_code == 404
 
@@ -108,6 +107,6 @@ def test_predict_route5():
     client = app.test_client()
     url = '/predict'
 
-    response = client.get(url, query_string = {'school':"MS", 'higher':"yes", 'Mjob': "teacher", 'Fjob': "health", 'studytime':-1, 'paid':"yes", 'failures':0, 'famsize':3 })
+    response = client.get(url, query_string = {'Fedu': 4, 'Medu': 4, 'Walc': 1, 'absences': 0, 'age': 18, 'failures': 0, 'freetime': 1, 'goout': 1, 'health': 5, 'famsize':3 })
 
     assert response.status_code == 404
