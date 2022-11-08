@@ -8,7 +8,7 @@ import os
 def configure_routes(app):
 
     this_dir = os.path.dirname(__file__)
-    model_path = os.path.join(this_dir, "model4.pkl")
+    model_path = os.path.join(this_dir, "model84.pkl")
     rfc = joblib.load(model_path)
 
     @app.route('/')
@@ -19,81 +19,29 @@ def configure_routes(app):
     @app.route('/predict')
     def predict():
         #use entries from the query string here but could also use json
-        Fjob = request.args.get('Fjob')
-        Mjob = request.args.get('Mjob')
-        higher = request.args.get('higher')
-        paid = request.args.get('paid')
-        school = request.args.get('school')
-
-        Fjob_health = 0
-        Fjob_other = 0
-        Fjob_services = 0
-        Fjob_teacher = 0
-        if Fjob == "health":
-            Fjob_health = 1
-        elif Fjob == "other":
-            Fjob_other = 1
-        elif Fjob == "services":
-            Fjob_services = 1
-        elif Fjob == "teacher":
-            Fjob_teacher = 1
-        
-        Mjob_health = 0
-        Mjob_other = 0
-        Mjob_services = 0
-        Mjob_teacher = 0
-        if Mjob == "health":
-            Mjob_health = 1
-        elif Mjob == "other":
-            Mjob_other = 1
-        elif Mjob == "services":
-            Mjob_services = 1
-        elif Mjob == "teacher":
-            Mjob_teacher = 1
-        
-        higher_yes = 0
-        if higher == "yes":
-            higher_yes = 1
-
-        paid_yes = 0
-        if paid == "yes":
-            paid_yes = 1
-
-        if school == "MS":
-            school_MS = 1
-        else:
-            school_MS = 0
-        
-        studytime = eval(request.args.get('studytime'))
-        failures = eval(request.args.get('failures'))
-       
-        # data = [[Fjob_health], [Fjob_other], 
-        #         [Fjob_services], [Fjob_teacher],
-        #         [Mjob_health], [Mjob_other],
-        #         [Mjob_services], [Mjob_teacher],
-        #         [failures], [higher_yes],
-        #         [paid_yes], [school_MS], [studytime]]
+        Fedu = request.args.get('Fedu')
+        Medu = request.args.get('Medu')
+        Walc = request.args.get('Walc')
+        absences = request.args.get('absences')
+        age = request.args.get('age')
+        failures = request.args.get('failures')
+        freetime = request.args.get('freetime')
+        goout = request.args.get('goout')
+        health = request.args.get('health')
 
         query_df = pd.DataFrame({ 
-                    'Fjob_health' : pd.Series(Fjob_health),
-                    'Fjob_other' : pd.Series(Fjob_other), 
-                    'Fjob_services': pd.Series(Fjob_services),
-                    'Fjob_teacher': pd.Series(Fjob_teacher),
-                    'Mjob_health': pd.Series(Mjob_health),
-                    'Mjob_other': pd.Series(Mjob_other),
-                    'Mjob_services': pd.Series(Mjob_services),
-                    'Mjob_teacher': pd.Series(Mjob_teacher),
+                    'Fedu' : pd.Series(Fedu),
+                    'Medu' : pd.Series(Medu), 
+                    'Walc': pd.Series(Walc),
+                    'absences': pd.Series(absences),
+                    'age': pd.Series(age),
                     'failures': pd.Series(failures),
-                    'higher_yes': pd.Series(higher_yes),
-                    'paid_yes': pd.Series(paid_yes),
-                    'school_MS': pd.Series(school_MS),
-                    'studytime': pd.Series(studytime)
+                    'freetime': pd.Series(freetime),
+                    'goout': pd.Series(goout),
+                    'health': pd.Series(health),
         })
 
-        # return str(query.columns.size)
-        # return "" + query.columns[1] + query.columns[2] + query.columns[3] + "" + query.columns[4] + query.columns[5] + query.columns[6] + query.columns[7] + query.columns[8] + query.columns[9] + "" + query.columns[10] + query.columns[11]
         prediction = rfc.predict(query_df)
-        #return jsonify(np.ndarray.item(prediction))
-        return 2
+        return jsonify(np.ndarray.item(prediction))
 
-# Query String: Fjob=health&Mjob=health&failures=0&higher=yes&paid=yes&school=MD&studytime=2
+# Query String: ?Fedu=1&Medu=3&Walc=4&absences=3&age=17&failures=0&freetime=4&goout=5&health=2
