@@ -35,7 +35,7 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Student'
-        '405':
+        '404':
           description: Invalid input
     get:
       tags:
@@ -62,30 +62,44 @@ components:
       properties:
         id:
           type: integer
+          format: int32
           format: int64
           example: 5
-        school:
-          type: string
-          example: "MS"
-        higher:
-          type: string
-          example: "yes"
-        Mjob:
-          type: string
-          example: "at_home"
-        Fjob:
-          type: string
-          example: "teacher"
-        studytime:
+        Fedu:
           type: integer
           format: int32
-          example: 2
-        paid:
-          type: string
-          example: "yes"
+          example: 4
+        Medu:
+          type: integer
+          format: int32
+          example: 4
+        Walc:
+          type: integer
+          format: int32
+          example: 1
+        absences:
+          type: integer
+          format: int32
+          example: 7
+        age:
+          type: integer
+          format: int32
+          example: 22
         failures:
           type: integer
           format: int32
+          example: 0
+        freetime:
+          type: integer
+          format: int32
           example: 2
+        goout:
+          type: integer
+          format: int32
+          example: 2
+        health:
+          type: integer
+          format: int32
+          example: 5
       xml:
         name: Student
