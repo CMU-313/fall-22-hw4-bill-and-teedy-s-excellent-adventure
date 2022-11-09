@@ -1,7 +1,7 @@
 # Updates to Model
-We updated the model by converting to a random forest model with maximum depth of 5 and changing the selected features. The features we selected were: mother's occupation (fjob), father's occupation (mjob), the number of classes the applicant has failed (failures), whether the applicant is interested in higher education (higher), whether the applicant has enrolled in paid classes in their field of interest (paid), the amount of time the applicant spends studying (studytime) and the applicant's school.
+We updated the model by converting to a random forest model with maximum depth of 9 and changing the selected features. The features we selected were: mother's education (Fedu), father's education (Medu), the applicant's alcohol consumption (Walc), their number of absences, their age, the number of classes they have failed, the amount of freetime they have, how often they go out and their health.
 
-As a result of these changes, our model's prediction accuracy rose from a baseline of 51% to 78%.
+As a result of these changes, our model's prediction accuracy rose from a baseline of 51% to 84%.
 
 # HW4 Starter Code and Instructions
 
