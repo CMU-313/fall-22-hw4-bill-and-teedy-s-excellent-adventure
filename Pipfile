@@ -11,6 +11,7 @@ joblib = "*"
 flask = "*"
 pytest = "*"
 notebook = "*"
+lime = "*"
 
 [dev-packages]
 pandas = "*"

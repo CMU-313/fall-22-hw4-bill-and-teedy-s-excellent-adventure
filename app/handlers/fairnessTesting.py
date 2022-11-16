@@ -27,7 +27,7 @@ def configure_routes(app):
     # modified from https://shzhangji.com/blog/2018/04/07/error-handling-in-restful-api/
     @app.route('/predict')
     def predict():
-        df =pd.read_csv('../../data/ProductionData.csv', sep=',')
+        df =pd.read_csv(os.path.join(this_dir, "../../data/ProductionData.csv"), sep=',')
 
         #####################
         df['qual_student'] = np.where(df['G3']>=15, 1, 0)
@@ -48,4 +48,4 @@ def configure_routes(app):
 
         #####################
 
-        return jsonify(np.ndarray.item(result))
+        return jsonify(result)
